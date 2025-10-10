@@ -44,6 +44,8 @@ The title and text were combined to give more context before training.
 ```bash
 Sentiment_Analysis_Project/
 │
+├── Analysis_Code                 # File Containing all analysis code
+├── Input_Code                    # Input file to run new text
 ├── fake_news_model.h5            # Trained LSTM model
 ├── tokenizer.pkl                 # Tokenizer used for text processing
 ├── README.md                     # Project documentation
