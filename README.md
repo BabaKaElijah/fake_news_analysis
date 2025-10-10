@@ -59,7 +59,8 @@ Sentiment_Analysis_Project/
 2. **LSTM Layer**: Captures sequential relationships in text.  
 3. **Dense Layer (Sigmoid)**: Outputs probability between 0 and 1 for binary classification.
 
-### Code Samples Breakdown:
+## Code Samples Breakdown:
+### Text Preprocessing
 Before feeding text data into the LSTM model, all news articles are converted into numerical form using a Tokenizer and padding. Neural networks work with numbers, not raw text, so this step transforms text into sequences the model can understand.
 ```Python
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -77,4 +78,30 @@ X_test_seq = tokenizer.texts_to_sequences(X_test)
 X_train_pad = pad_sequences(X_train_seq, maxlen=max_len)
 X_test_pad = pad_sequences(X_test_seq, maxlen=max_len)
 ```
+### Building the LSTM Model
+The LSTM model is designed to classify news articles as real or fake. It processes sequences of words and learns patterns in the text.
+```Python
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Embedding, LSTM, Dense, Dropout
 
+model = Sequential()
+model.add(Embedding(input_dim=max_words, output_dim=128, input_length=max_len))
+model.add(LSTM(128, dropout=0.2, recurrent_dropout=0.2))
+model.add(Dense(1, activation='sigmoid'))
+
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+```
+### Handling Class Imbalance
+Some datasets have more examples of one class than the other. This can make the model biased toward the majority class. To fix this, we compute class weights so the model gives more importance to the minority class.
+```Python
+from sklearn.utils import class_weight
+import numpy as np
+
+class_weights = class_weight.compute_class_weight(
+    class_weight='balanced',
+    classes=np.unique(y_train),
+    y=y_train
+)
+class_weights_dict = dict(enumerate(class_weights))
+print(class_weights_dict)
+```
