@@ -208,14 +208,6 @@ if __name__ == "__main__":
 
 ---
 
-## Future Improvements
-
-- Add GRU or Bidirectional LSTM layers for better accuracy  
-- Fine-tune hyperparameters for larger datasets  
-- Deploy the model using a web app (Flask or Streamlit)
-
----
-
 ## Author
 
 **Ellias Sithole**  
