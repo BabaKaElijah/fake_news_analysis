@@ -105,3 +105,89 @@ class_weights = class_weight.compute_class_weight(
 class_weights_dict = dict(enumerate(class_weights))
 print(class_weights_dict)
 ```
+### Training the Model
+The model is trained on the preprocessed news articles using the LSTM network.
+```Python
+history = model.fit(
+    X_train_pad, y_train,
+    epochs=5,
+    batch_size=128,
+    validation_split=0.2,
+    class_weight=class_weights_dict,
+    verbose=1
+)
+```
+### Evaluating the Model
+After training, the model’s performance is tested on unseen data.
+```Python
+test_loss, test_accuracy = model.evaluate(X_test_pad, y_test)
+print(f"Test Accuracy: {test_accuracy}")
+print(f"Test Loss: {test_loss}")
+```
+### Predicting New Articles
+This section demonstrates how to use the trained LSTM model to predict whether new news articles are real or fake.
+```Python
+# Example new articles
+new_articles = [
+    "The government announced a new education policy starting next month.",
+    "Local team wins the national soccer championship.",
+    "Miracle cure for diabetes discovered in remote village.",
+    "Stock market sees steady growth after quarterly earnings report."
+]
+
+# Clean, tokenize, and pad
+new_clean = [clean_text(text) for text in new_articles]
+new_seq = tokenizer.texts_to_sequences(new_clean)
+new_pad = pad_sequences(new_seq, maxlen=max_len)
+
+# Predict
+predictions = (model.predict(new_pad) > 0.5).astype("int32")
+
+# Show results
+for text, pred in zip(new_articles, predictions):
+    label = "Fake" if pred[0] == 1 else "Real"
+    print(f"Article: {text}\nPrediction: {label}\n")
+```
+### Interactive News Prediction
+This script allows users to input news articles interactively and get predictions in real-time.
+```Python
+import pickle
+from tensorflow.keras.models import load_model
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+import re
+
+# Load the trained model
+model = load_model("fake_news_model.h5")
+
+# Load the tokenizer
+with open("tokenizer.pkl", "rb") as f:
+    tokenizer = pickle.load(f)
+
+# Set the same max length used during training
+MAX_LEN = 100
+
+# Optional: same cleaning function used during training
+def clean_text(text):
+    text = text.lower()
+    text = re.sub(r'[^a-zA-Z0-9\s]', '', text)
+    return text
+
+# Function to predict news authenticity
+def predict_news(article):
+    article_clean = clean_text(article)
+    seq = tokenizer.texts_to_sequences([article_clean])
+    padded = pad_sequences(seq, maxlen=MAX_LEN)
+    prob = model.predict(padded)[0][0]
+    label = "Real" if prob > 0.5 else "Fake"
+    print(f"\nArticle: {article}")
+    print(f"Prediction: {label}, Probability: {prob:.4f}")
+
+# Main program
+if __name__ == "__main__":
+    while True:
+        user_input = input("\nEnter a news article (or type 'exit' to quit):\n")
+        if user_input.lower() == "exit":
+            print("Exiting program.")
+            break
+        predict_news(user_input)
+```
