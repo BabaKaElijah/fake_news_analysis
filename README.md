@@ -193,3 +193,38 @@ if __name__ == "__main__":
             break
         predict_news(user_input)
 ```
+
+
+---
+
+## Technologies Used
+
+- Python 3
+- TensorFlow / Keras
+- NumPy
+- Pandas
+- Scikit-learn
+- Matplotlib
+
+---
+
+## Future Improvements
+
+- Add GRU or Bidirectional LSTM layers for better accuracy  
+- Fine-tune hyperparameters for larger datasets  
+- Deploy the model using a web app (Flask or Streamlit)
+
+---
+
+## Author
+
+**Ellias Sithole**  
+BSc, BSc Hons, MSc (Mathematics)  
+Aspiring Data Scientist  
+Location: Johannesburg, South Africa  
+GitHub: github.com/BabaKaElijah  
+Email: tsebeelias@gmail.com
+
+---
+
+
