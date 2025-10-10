@@ -59,7 +59,8 @@ Sentiment_Analysis_Project/
 2. **LSTM Layer**: Captures sequential relationships in text.  
 3. **Dense Layer (Sigmoid)**: Outputs probability between 0 and 1 for binary classification.
 
-Code Samples Breakdown:
+### Code Samples Breakdown:
+Before feeding text data into the LSTM model, all news articles are converted into numerical form using a Tokenizer and padding. Neural networks work with numbers, not raw text, so this step transforms text into sequences the model can understand.
 ```Python
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
