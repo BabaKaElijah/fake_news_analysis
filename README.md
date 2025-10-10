@@ -41,6 +41,7 @@ The title and text were combined to give more context before training.
 ---
 
 ## Project Structure
+```bash
 Sentiment_Analysis_Project/
 │
 ├── predict_news_interactive.py   # Script for interactive predictions
@@ -50,4 +51,5 @@ Sentiment_Analysis_Project/
 ├── README.md                     # Project documentation
 └── data/
     └── fake_news_dataset.csv     # Dataset used for training
+```
 
